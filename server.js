@@ -24,7 +24,7 @@ app.get("/sse", async (req, res) => {
   res.setHeader("Content-Type", "text/event-stream");
   res.setHeader("Cache-Control", "no-cache");
   res.setHeader("Connection", "keep-alive");
-  res.flushHeaders(); // ensure headers are sent immediately
+  // res.flushHeaders(); // ensure headers are sent immediately
 
   transport = new SSEServerTransport("/messages", res);
   await server.connect(transport);
