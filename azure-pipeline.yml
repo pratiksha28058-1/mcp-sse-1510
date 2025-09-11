@@ -1,0 +1,42 @@
+trigger:
+- main   # run pipeline on push to main branch
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  NODE_VERSION: '20.x'
+
+steps:
+# Install Node.js
+- task: UseNode@1
+  inputs:
+    version: $(NODE_VERSION)
+
+# Install dependencies
+- script: npm install
+  displayName: 'Install dependencies'
+
+# Run tests (optional)
+#- script: npm test
+#  displayName: 'Run tests'
+
+# Build (if needed, else skip)
+- script: npm run build
+  displayName: 'Build app'
+
+# Archive for deployment
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(System.DefaultWorkingDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/mcp.zip'
+    replaceExistingArchive: true
+
+# Publish artifact
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
