@@ -29,4 +29,11 @@ app.post("/messages", async (req, res) => {
   await transport.handlePostMessage(req, res);
 });
 
-app.listen(3001);
+// app.listen(3001);
+
+
+// Use PORT from environment (Azure injects PORT=8080)
+const port = process.env.PORT || 8080;
+app.listen(port, "0.0.0.0", () => {
+  console.log(`✅ MCP SSE server running on http://0.0.0.0:${port}/sse`);
+});
