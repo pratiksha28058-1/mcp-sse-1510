@@ -19,23 +19,11 @@ let transport;
 
 // SSE endpoint (keep connection open)
 app.get("/sse", async (req, res) => {
-  res.setHeader("Content-Type", "text/event-stream");
-  res.setHeader("Cache-Control", "no-cache, no-transform");
-  res.setHeader("Connection", "keep-alive");
-
-  // Prevent Express from auto-ending
-  req.socket.setKeepAlive(true);
-
   transport = new SSEServerTransport("/messages", res);
-
-  try {
-    await server.connect(transport);
-    console.log("🔗 SSE client connected");
-  } catch (err) {
-    console.error("❌ SSE connection failed:", err);
-    res.end();
-  }
+  await server.connect(transport);
 });
+
+
 
 // Handle messages from client → server
 app.post("/messages", express.json(), async (req, res) => {
