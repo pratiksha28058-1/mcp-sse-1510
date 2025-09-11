@@ -43,3 +43,5 @@ const port = process.env.PORT || 3001;
 app.listen(port, "0.0.0.0", () => {
   console.log(`✅ MCP SSE server running on http://0.0.0.0:${port}/sse`);
 });
+
+// Check server health
