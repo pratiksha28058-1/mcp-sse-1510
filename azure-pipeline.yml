@@ -42,4 +42,4 @@ stages:
         azureSubscription: $(serviceConnection)
         appName: $(appName)
         containers: |
-          $(acrName)/$(imageName):$(imageTag)   # ✅ correct full path
+          DOCKER|$(acrName)/$(imageName):$(imageTag)   # ✅ correct full path
