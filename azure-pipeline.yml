@@ -2,15 +2,15 @@ trigger:
 - main   # or your branch
 
 variables:
-  acrName: mcpregistrycontainer.azurecr.io        # replace with your ACR login server
-  imageName: mcp-server1                # your image repo name in ACR
-  imageTag: $(Build.BuildId)             # unique tag per build
-  serviceConnection: services-connection-pratiksha   # name of your Azure Resource Manager service connection
-  containerRegistry: DES-ACR
-  appName: mcp-container1                 # your Web App name in Azure
+  acrName: mcpregistrycontainer.azurecr.io        # ACR login server
+  imageName: mcp-server1                          # image repo name in ACR
+  imageTag: $(Build.BuildId)                      # unique tag per build
+  serviceConnection: services-connection-pratiksha   # Azure RM service connection
+  containerRegistry: DES-ACR                      # Docker Registry service connection for ACR
+  appName: mcp-container1                         # Web App name in Azure
 
 pool:
-  vmImage: ubuntu-latest   # Linux agent (Windows agents cause node image pull errors)
+  vmImage: ubuntu-latest
 
 stages:
 - stage: Build
@@ -24,9 +24,9 @@ stages:
       displayName: Build and Push Docker Image
       inputs:
         command: buildAndPush
-        repository: $(acrName)/$(imageName)
+        repository: $(imageName)                # ✅ only repo name, not full URL
         dockerfile: $(Build.SourcesDirectory)/Dockerfile
-        containerRegistry: $(containerRegistry)   # this must be a Docker Registry/ACR service connection
+        containerRegistry: $(containerRegistry) # must be a Docker Registry service connection
         tags: |
           $(imageTag)
 
@@ -39,7 +39,7 @@ stages:
     - task: AzureWebAppContainer@1
       displayName: Deploy to Web App Container
       inputs:
-        azureSubscription: $(serviceConnection)   # Azure RM service connection
+        azureSubscription: $(serviceConnection)
         appName: $(appName)
         containers: |
-          $(acrName)/$(imageName):$(imageTag)
+          $(acrName)/$(imageName):$(imageTag)   # ✅ correct full path
