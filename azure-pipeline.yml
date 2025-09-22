@@ -6,7 +6,7 @@ variables:
   imageName: mcp-server1                # your image repo name in ACR
   imageTag: $(Build.BuildId)             # unique tag per build
   serviceConnection: services-connection-pratiksha   # name of your Azure Resource Manager service connection
-  containerRegistry: DES-Docker-Registry
+  containerRegistry: DES-ACR
   appName: mcp-container1                 # your Web App name in Azure
 
 pool:
