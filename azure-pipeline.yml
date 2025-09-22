@@ -2,15 +2,15 @@ trigger:
 - main   # or your branch
 
 variables:
-  acrName: mcpregistrycontainer.azurecr.io        # ACR login server
-  imageName: mcp-server1                          # image repo name in ACR
-  imageTag: $(Build.BuildId)                      # unique tag per build
-  serviceConnection: services-connection-pratiksha   # Azure RM service connection
-  containerRegistry: DES-ACR                      # Docker Registry service connection for ACR
-  appName: mcp-container1                         # Web App name in Azure
+  acrName: mcpregistrycontainer.azurecr.io        # replace with your ACR login server
+  imageName: mcp-server1                # your image repo name in ACR
+  imageTag: $(Build.BuildId)             # unique tag per build
+  serviceConnection: services-connection-pratiksha   # name of your Azure Resource Manager service connection
+  containerRegistry: DES-ACR
+  appName: mcp-container1                 # your Web App name in Azure
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: ubuntu-latest   # Linux agent (Windows agents cause node image pull errors)
 
 stages:
 - stage: Build
@@ -24,9 +24,9 @@ stages:
       displayName: Build and Push Docker Image
       inputs:
         command: buildAndPush
-        repository: $(imageName)                # ✅ only repo name, not full URL
+        repository: $(acrName)/$(imageName)
         dockerfile: $(Build.SourcesDirectory)/Dockerfile
-        containerRegistry: $(containerRegistry) # must be a Docker Registry service connection
+        containerRegistry: $(containerRegistry)   # this must be a Docker Registry/ACR service connection
         tags: |
           $(imageTag)
 
@@ -39,7 +39,7 @@ stages:
     - task: AzureWebAppContainer@1
       displayName: Deploy to Web App Container
       inputs:
-        azureSubscription: $(serviceConnection)
+        azureSubscription: $(serviceConnection)   # Azure RM service connection
         appName: $(appName)
         containers: |
-          DOCKER|$(acrName)/$(imageName):$(imageTag)   # ✅ correct full path
+          $(acrName)/$(imageName):$(imageTag)
