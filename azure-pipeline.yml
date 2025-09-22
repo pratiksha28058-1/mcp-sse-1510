@@ -20,15 +20,25 @@ stages:
     steps:
     - checkout: self
 
+    # - task: Docker@2
+    #   displayName: Build and Push Docker Image
+    #   inputs:
+    #     command: buildAndPush
+    #     repository: $(acrName)/$(imageName)
+    #     dockerfile: $(Build.SourcesDirectory)/Dockerfile
+    #     containerRegistry: $(containerRegistry)   # this must be a Docker Registry/ACR service connection
+    #     tags: |
+    #       $(imageTag)
+
     - task: Docker@2
       displayName: Build and Push Docker Image
       inputs:
         command: buildAndPush
-        repository: $(acrName)/$(imageName)
-        dockerfile: $(Build.SourcesDirectory)/Dockerfile
-        containerRegistry: $(containerRegistry)   # this must be a Docker Registry/ACR service connection
+        repository: 'mcp-server1'
+        dockerfile: '**/Dockerfile'
+        containerRegistry: 'DES-ACR'   # points to mcpregistrycontainer.azurecr.io
         tags: |
-          $(imageTag)
+          1337
 
 - stage: Deploy
   displayName: Deploy to Azure Web App
