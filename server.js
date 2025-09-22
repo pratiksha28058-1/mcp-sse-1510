@@ -2,46 +2,48 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import express from "express";
-import { z } from "zod";
+import { registerexample } from "./tools/example.js";
+//import { getadoprojects } from "./tools/get-ado-projects_sh.js";
+import { getadoprojects_ps } from "./tools/get-ado-projects_PS.js";
+import { getadoprojects } from "./tools/getadoProjects.js"; // <-- import your tool
+import { sayHiTool } from "./tools/sayHiTool.js";
+import { migraterepo } from "./tools/migrate-ado-repo.js";
 
+// Initialize server
 const server = new McpServer({
-  name: "Example SSE Server",
+  name: "ADO to GitHub Migration SSE Server",
   version: "1.0.0",
 });
 
+
 // Example tool
-server.tool("example_tool", { param: z.string() }, async ({ param }) => ({
-  content: [{ type: "text", text: `Processed: ${param}` }],
-}));
+// server.tool("example_tool", { param: z.string() }, async ({ param }) => ({
+//   content: [{ type: "text", text: `Processed: ${param}` }],
+// }));
 
 const app = express();
 let transport;
 
-// SSE endpoint (keep connection open)
+
+registerexample(server);
+getadoprojects(server);
+sayHiTool(server);
+getadoprojects_ps(server);
+migraterepo(server);
+
+// SSE endpoint
 app.get("/sse", async (req, res) => {
   transport = new SSEServerTransport("/messages", res);
   await server.connect(transport);
 });
 
-
-
-// Handle messages from client → server
-app.post("/messages", express.json(), async (req, res) => {
-  if (!transport) {
-    return res.status(503).json({ error: "No SSE transport connected" });
-  }
-  try {
-    await transport.handlePostMessage(req, res);
-  } catch (err) {
-    console.error("❌ Message handling error:", err);
-    res.status(500).json({ error: err.message });
-  }
+// Message handler
+app.post("/messages", async (req, res) => {
+  await transport.handlePostMessage(req, res);
 });
 
-// Azure injects PORT (usually 8080), fallback to 3001 for local
-const port = process.env.PORT || 3001;
+// Use PORT from environment (Azure injects PORT=8080)
+const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
   console.log(`✅ MCP SSE server running on http://0.0.0.0:${port}/sse`);
 });
-
-// Check server health

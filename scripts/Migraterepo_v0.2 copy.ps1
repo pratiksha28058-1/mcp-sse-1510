@@ -1,0 +1,91 @@
+param (
+    [string]$AdoOrg,
+    [string]$AdoProject,
+    [string]$AdoRepo,
+    [string]$GithubOwner,
+    [string]$GithubRepo
+)
+
+# Read PATs from environment variables
+$adoPat = $env:ADO_PAT
+$githubPat = $env:GITHUB_PAT
+
+if (-not $adoPat) {
+    Write-Error "❌ Missing Azure DevOps PAT. Please set the ADO_PAT environment variable."
+    exit 1
+}
+if (-not $githubPat) {
+    Write-Error "❌ Missing GitHub PAT. Please set the GITHUB_PAT environment variable."
+    exit 1
+}
+
+# Temp directory (ephemeral)
+$tempFolder = Join-Path -Path $PSScriptRoot -ChildPath "temp-repo"
+
+try {
+    if (Test-Path $tempFolder) { Remove-Item -Recurse -Force $tempFolder }
+    New-Item -ItemType Directory -Path $tempFolder | Out-Null
+
+    # Authenticated URLs
+    $adoUrl = "https://dev.azure.com/$AdoOrg/$AdoProject/_git/$AdoRepo"
+   # $adoAuthUrl = $adoUrl.Replace("https://", "https://$AdoPat@")
+    $adoAuthUrl = "https://:$($adoPat)@dev.azure.com/$AdoOrg/$AdoProject/_git/$AdoRepo"
+
+
+
+    $githubUrl = "https://github.com/$GithubOwner/$GithubRepo.git"
+    $githubApiUrl = "https://api.github.com/repos/$GithubOwner/$GithubRepo"
+
+    # Check if GitHub repo exists
+    Write-Host "🔍 Checking if GitHub repo $GithubOwner/$GithubRepo exists..."
+    try {
+        Invoke-RestMethod -Uri $githubApiUrl -Headers @{ Authorization = "token $githubPat" } -Method GET -ErrorAction Stop | Out-Null
+        Write-Host "✔️ GitHub repo already exists."
+    }
+    catch {
+        Write-Host "⚠️ Repo not found. Creating new repo..."
+
+        if ($GithubOwner -eq $env:GITHUB_USER) {
+            # Create repo under user account
+            Invoke-RestMethod -Uri "https://api.github.com/user/repos" `
+                -Headers @{ Authorization = "token $githubPat" } `
+                -Method POST `
+                -Body (@{ name = $GithubRepo; private = $true } | ConvertTo-Json)
+        }
+        else {
+            # Create repo under org
+            Invoke-RestMethod -Uri "https://api.github.com/orgs/$GithubOwner/repos" `
+                -Headers @{ Authorization = "token $githubPat" } `
+                -Method POST `
+                -Body (@{ name = $GithubRepo; private = $true } | ConvertTo-Json)
+        }
+
+        Write-Host "✅ GitHub repo $GithubOwner/$GithubRepo created."
+    }
+
+    # Clone from ADO
+    Write-Host "⬇️ Cloning $AdoRepo from ADO..."
+
+    # Disable SSL verification (temporary workaround)
+    git config --global http.sslVerify false
+    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
+
+    git clone --mirror $adoAuthUrl $tempFolder
+
+    # Push to GitHub
+    Set-Location $tempFolder
+    Write-Host "⬆️ Pushing to GitHub..."
+    $githubAuthUrl = $githubUrl.Replace("https://", "https://$githubPat@")
+    git remote set-url origin $githubAuthUrl
+    git push --mirror
+
+    Write-Host "🎉 Migration completed successfully!"
+}
+catch {
+    Write-Error "❌ Migration failed: $_"
+}
+finally {
+    # Cleanup
+    Set-Location $PSScriptRoot
+    if (Test-Path $tempFolder) { Remove-Item -Recurse -Force $tempFolder }
+}
