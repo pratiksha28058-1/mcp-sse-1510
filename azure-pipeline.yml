@@ -1,5 +1,5 @@
 trigger:
-- main   # or your branch
+- Dev   # or your branch
 
 variables:
   acrName: mcpregistrycontainer.azurecr.io        # replace with your ACR login server
