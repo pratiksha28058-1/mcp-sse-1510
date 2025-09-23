@@ -19,25 +19,10 @@ if (-not $githubPat) {
     exit 1
 }
 
-# 🔐 Force SSL ignore to fix UntrustedRoot errors
-Add-Type @"
-using System.Net;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
-public class SSLHandler {
-    public static bool IgnoreCertValidation(
-        object sender,
-        X509Certificate cert,
-        X509Chain chain,
-        SslPolicyErrors sslPolicyErrors) {
-        return true;
-    }
-}
-"@
-[System.Net.ServicePointManager]::ServerCertificateValidationCallback = [SSLHandler]::IgnoreCertValidation
+# 🔐 Ignore SSL errors (only if necessary!)
 git config --global http.sslVerify false
 
-# Temp directory (ephemeral)
+# Temp directory
 $tempFolder = Join-Path -Path $PSScriptRoot -ChildPath "temp-repo"
 
 try {
@@ -51,24 +36,28 @@ try {
 
     # Check if GitHub repo exists
     Write-Host "🔍 Checking if GitHub repo $GithubOwner/$GithubRepo exists..."
+    $repoExists = $false
     try {
         Invoke-RestMethod -Uri $githubApiUrl -Headers @{ Authorization = "token $githubPat" } -Method GET -ErrorAction Stop | Out-Null
+        $repoExists = $true
         Write-Host "✔️ GitHub repo already exists."
     }
     catch {
         Write-Host "⚠️ Repo not found. Creating new repo..."
+    }
 
-        if ($GithubOwner -eq $env:GITHUB_USER) {
+    if (-not $repoExists) {
+        if ($GithubOwner -eq $env:GITHUB_USER -or $GithubOwner -eq (Invoke-RestMethod -Uri "https://api.github.com/user" -Headers @{ Authorization = "token $githubPat" }).login) {
             Invoke-RestMethod -Uri "https://api.github.com/user/repos" `
-                -Headers @{ Authorization = "token $githubPat" } `
+                -Headers @{ Authorization = "token $githubPat"; "Accept" = "application/vnd.github.v3+json" } `
                 -Method POST `
-                -Body (@{ name = $GithubRepo; private = $true } | ConvertTo-Json)
+                -Body (@{ name = $GithubRepo; private = $true } | ConvertTo-Json -Depth 10)
         }
         else {
             Invoke-RestMethod -Uri "https://api.github.com/orgs/$GithubOwner/repos" `
-                -Headers @{ Authorization = "token $githubPat" } `
+                -Headers @{ Authorization = "token $githubPat"; "Accept" = "application/vnd.github.v3+json" } `
                 -Method POST `
-                -Body (@{ name = $GithubRepo; private = $true } | ConvertTo-Json)
+                -Body (@{ name = $GithubRepo; private = $true } | ConvertTo-Json -Depth 10)
         }
 
         Write-Host "✅ GitHub repo $GithubOwner/$GithubRepo created."
