@@ -1,5 +1,5 @@
 trigger:
-- main   # run pipeline on push to main branch
+- Dev   # run pipeline on push to main branch
 
 pool:
   vmImage: 'ubuntu-latest'
