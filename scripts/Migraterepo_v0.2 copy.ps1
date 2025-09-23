@@ -19,6 +19,24 @@ if (-not $githubPat) {
     exit 1
 }
 
+# 🔐 Force SSL ignore to fix UntrustedRoot errors
+Add-Type @"
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
+public class SSLHandler {
+    public static bool IgnoreCertValidation(
+        object sender,
+        X509Certificate cert,
+        X509Chain chain,
+        SslPolicyErrors sslPolicyErrors) {
+        return true;
+    }
+}
+"@
+[System.Net.ServicePointManager]::ServerCertificateValidationCallback = [SSLHandler]::IgnoreCertValidation
+git config --global http.sslVerify false
+
 # Temp directory (ephemeral)
 $tempFolder = Join-Path -Path $PSScriptRoot -ChildPath "temp-repo"
 
@@ -27,12 +45,7 @@ try {
     New-Item -ItemType Directory -Path $tempFolder | Out-Null
 
     # Authenticated URLs
-    $adoUrl = "https://dev.azure.com/$AdoOrg/$AdoProject/_git/$AdoRepo"
-   # $adoAuthUrl = $adoUrl.Replace("https://", "https://$AdoPat@")
     $adoAuthUrl = "https://:$($adoPat)@dev.azure.com/$AdoOrg/$AdoProject/_git/$AdoRepo"
-
-
-
     $githubUrl = "https://github.com/$GithubOwner/$GithubRepo.git"
     $githubApiUrl = "https://api.github.com/repos/$GithubOwner/$GithubRepo"
 
@@ -46,14 +59,12 @@ try {
         Write-Host "⚠️ Repo not found. Creating new repo..."
 
         if ($GithubOwner -eq $env:GITHUB_USER) {
-            # Create repo under user account
             Invoke-RestMethod -Uri "https://api.github.com/user/repos" `
                 -Headers @{ Authorization = "token $githubPat" } `
                 -Method POST `
                 -Body (@{ name = $GithubRepo; private = $true } | ConvertTo-Json)
         }
         else {
-            # Create repo under org
             Invoke-RestMethod -Uri "https://api.github.com/orgs/$GithubOwner/repos" `
                 -Headers @{ Authorization = "token $githubPat" } `
                 -Method POST `
@@ -65,11 +76,6 @@ try {
 
     # Clone from ADO
     Write-Host "⬇️ Cloning $AdoRepo from ADO..."
-
-    # Disable SSL verification (temporary workaround)
-    git config --global http.sslVerify false
-    [System.Net.ServicePointManager]::ServerCertificateValidationCallback = { $true }
-
     git clone --mirror $adoAuthUrl $tempFolder
 
     # Push to GitHub
@@ -85,7 +91,6 @@ catch {
     Write-Error "❌ Migration failed: $_"
 }
 finally {
-    # Cleanup
     Set-Location $PSScriptRoot
     if (Test-Path $tempFolder) { Remove-Item -Recurse -Force $tempFolder }
 }
