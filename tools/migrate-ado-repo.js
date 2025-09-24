@@ -8,22 +8,30 @@ export function migraterepo(server) {
   server.tool(
     "migrate-repo-ps",
     {
-      org: z.string(),
-      project: z.string(),
-      repo: z.string(),
       githubOrg: z.string(),
       githubRepo: z.string(),
     },
     {
-      description: "Migrate ADO repo to GitHub",
+      description: "Migrate ADO repo to GitHub (select org/project/repo from scan)",
     },
     async (args) => {
       try {
+        // 1️⃣ Run the selection script first
+        const { stdout: scanOutput } = await execAsync(
+          `pwsh -ExecutionPolicy Bypass -File ./scripts/Select-Repo.ps1`,
+          { timeout: 2 * 60 * 1000 } // 2 minutes
+        );
+
+        // 2️⃣ Parse JSON output
+        const selection = JSON.parse(scanOutput.trim());
+        const { Organization, Project, Repository } = selection;
+
+        // 3️⃣ Run migration script with selected values
         const { stdout, stderr } = await execAsync(
-          `pwsh -ExecutionPolicy Bypass -File ./scripts/Migraterepo_v0.2.ps1 $AdoOrg ${args.org} $AdoProject ${args.project} $AdoRepo ${args.repo} $GithubOwner ${args.githubOrg} $GithubRepo ${args.githubRepo}`,
+          `pwsh -ExecutionPolicy Bypass -File ./scripts/Migraterepo_v0.2.ps1 $AdoOrg ${Organization} $AdoProject ${Project} $AdoRepo ${Repository} $GithubOwner ${args.githubOrg} $GithubRepo ${args.githubRepo}`,
           {
-            timeout: 10 * 60 * 1000,   // 10 minutes
-            maxBuffer: 20 * 1024 * 1024, // 20 MB buffer
+            timeout: 10 * 60 * 1000,
+            maxBuffer: 20 * 1024 * 1024,
           }
         );
 
