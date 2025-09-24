@@ -42,6 +42,16 @@ app.post("/messages", async (req, res) => {
   await transport.handlePostMessage(req, res);
 });
 
+// Support HEAD requests (for health checks or preflights)
+app.head("/sse", (req, res) => {
+  res.status(200).end();
+});
+
+app.head("/messages", (req, res) => {
+  res.status(200).end();
+});
+
+
 // Use PORT from environment (Azure injects PORT=8080)
 const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
