@@ -8,6 +8,7 @@ import { getadoprojects_ps } from "./tools/get-ado-projects_PS.js";
 import { getadoprojects } from "./tools/getadoProjects.js"; // <-- import your tool
 import { sayHiTool } from "./tools/sayHiTool.js";
 import { migraterepo } from "./tools/migrate-ado-repo.js";
+import { migrate_prs } from "./tools/migratePR.js"
 
 // Initialize server
 const server = new McpServer({
@@ -30,6 +31,7 @@ getadoprojects(server);
 sayHiTool(server);
 getadoprojects_ps(server);
 migraterepo(server);
+migrate_prs(server);
 
 // SSE endpoint
 app.get("/sse", async (req, res) => {
