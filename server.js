@@ -9,6 +9,8 @@ import { getadoprojects } from "./tools/getadoProjects.js"; // <-- import your t
 import { sayHiTool } from "./tools/sayHiTool.js";
 import { migraterepo } from "./tools/migrate-ado-repo.js";
 // import { migrate_prs } from "./tools/migratePR.js";
+import { registerMigratePRTool } from "./tools/migratePR.js";
+import { Migrate_Yml_Pipeline } from "./tools/migrate-pipeline.js";
 
 // Initialize server
 const server = new McpServer({
@@ -32,6 +34,8 @@ sayHiTool(server);
 getadoprojects_ps(server);
 migraterepo(server);
 // migrate_prs(server);
+registerMigratePRTool(server);
+Migrate_Yml_Pipeline(server);
 
 // SSE endpoint
 // HEAD check for /sse (must come before app.get)

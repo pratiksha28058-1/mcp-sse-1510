@@ -1,42 +1,38 @@
-
-# Install PowerShell Core (pwsh)
-# Install PowerShell Core (pwsh) + jq
 FROM node:20-bullseye
 
-# Install git, ca-certificates, and powershell
+ENV DEBIAN_FRONTEND=noninteractive
+ENV DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
+
+# Install dependencies
 RUN apt-get update && \
-    apt-get install -y wget apt-transport-https software-properties-common jq ca-certificates git && \
+    apt-get install -y wget apt-transport-https software-properties-common curl jq ca-certificates git dos2unix && \
     update-ca-certificates && \
+    # Install PowerShell
     wget -q https://packages.microsoft.com/config/debian/11/packages-microsoft-prod.deb && \
     dpkg -i packages-microsoft-prod.deb && \
     apt-get update && \
-    apt-get install -y powershell git && \
-    git config --global http.sslVerify false
+    apt-get install -y powershell && \
+    # Install GitHub CLI
+    curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg && \
+    chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null && \
+    apt-get update && \
+    apt-get install -y gh && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Force PowerShell to use system certs
-ENV DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER=0
+RUN git config --global http.sslVerify false
 
-# Create app directory
 WORKDIR /usr/src/app
 
-# Copy package.json first and install dependencies
 COPY package*.json ./
 RUN npm install --omit=dev
-
-# Copy rest of the app
 COPY . .
 
-# Ensure shell scripts are executable
-RUN chmod +x ./scripts/*.sh
+RUN chmod +x ./scripts/*.sh && find ./scripts -type f -name "*.sh" -exec dos2unix {} \;
 
-# Convert scripts to LF line endings
-RUN find ./scripts -type f -name "*.sh" -exec dos2unix {} \;
+# Entrypoint for runtime login & extension install
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
-# Optional: configure git globally
-#RUN git config --global http.sslVerify false   # (only for debugging)
-
-# Expose MCP server port
 EXPOSE 8080
-
-# Start Node.js MCP server
-CMD ["node", "server.js"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
