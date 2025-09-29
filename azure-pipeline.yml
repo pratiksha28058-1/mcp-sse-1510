@@ -22,9 +22,13 @@ steps:
     tags: |
       $(DOCKER_IMAGE_TAG)
 
-# - task: AzureWebAppContainer@2
-#   displayName: Deploy to Azure Web App
-#   inputs:
-#     azureSubscription: '<Service Connection to Azure>'
-#     appName: 'my-mcp-container'
-#     containers: '$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)'
+- task: AzureWebAppContainer@1
+  displayName: Deploy to Azure Web App
+  inputs:
+    azureSubscription: 'DES-Service-Connection-New'
+    appName: 'mcp-container2'
+    containers: '$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)'
+
+
+
+
