@@ -17,7 +17,7 @@ export function migrateADOPipelineTool(server) {
           "-NoProfile",
           "-NonInteractive",
           "-File",
-          "./scripts/Migrate-Yaml_Pipeline_v01.ps1",
+          "./scripts/Migrate_Yaml_Pipeline_v01.ps1",
           "-GithubOwner", `"${githubOwner}"`,
           "-GithubRepo", `"${githubRepo}"`,
         ];
