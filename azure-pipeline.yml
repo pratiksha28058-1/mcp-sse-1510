@@ -27,7 +27,7 @@ steps:
   inputs:
     azureSubscription: 'DES-Service-Connection-New'
     appName: 'mcp-container2'
-    containers: '$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)'
+    containers: 'mcpacr0101-fbgneab5ehh8exhv.azurecr.io/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)'
 
 
 
