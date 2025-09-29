@@ -1,55 +1,30 @@
 trigger:
-- Dev   # or your branch
-
-variables:
-  acrName: mcpregistrycontainer.azurecr.io        # replace with your ACR login server
-  imageName: mcp-server1                # your image repo name in ACR
-  imageTag: $(Build.BuildId)             # unique tag per build
-  serviceConnection: services-connection-pratiksha   # name of your Azure Resource Manager service connection
-  containerRegistry: DES-ACR
-  appName: mcp-container1                 # your Web App name in Azure
+  branches:
+    include:
+      - main
 
 pool:
-  vmImage: ubuntu-latest   # Linux agent (Windows agents cause node image pull errors)
+  vmImage: 'ubuntu-latest'
 
-stages:
-- stage: Build
-  displayName: Build and Push Image
-  jobs:
-  - job: Build
-    steps:
-    - checkout: self
+variables:
+  DOCKER_IMAGE_NAME: my-mcp-server
+  DOCKER_IMAGE_TAG: latest
+  ACR_NAME: mcpacr0101  # if using Azure Container Registry
 
-    # - task: Docker@2
-    #   displayName: Build and Push Docker Image
-    #   inputs:
-    #     command: buildAndPush
-    #     repository: $(acrName)/$(imageName)
-    #     dockerfile: $(Build.SourcesDirectory)/Dockerfile
-    #     containerRegistry: $(containerRegistry)   # this must be a Docker Registry/ACR service connection
-    #     tags: |
-    #       $(imageTag)
+steps:
+- task: Docker@2
+  displayName: Build and Push Docker Image
+  inputs:
+    containerRegistry: 'DES-ACR'
+    repository: $(DOCKER_IMAGE_NAME)
+    command: buildAndPush
+    Dockerfile: '**/Dockerfile'
+    tags: |
+      $(DOCKER_IMAGE_TAG)
 
-    - task: Docker@2
-      displayName: Build and Push Docker Image
-      inputs:
-        command: buildAndPush
-        repository: 'mcp-server1'
-        dockerfile: '**/Dockerfile'
-        containerRegistry: 'DES-ACR'   # points to mcpregistrycontainer.azurecr.io
-        tags: |
-          1337
-
-- stage: Deploy
+- task: AzureWebAppContainer@1
   displayName: Deploy to Azure Web App
-  dependsOn: Build
-  jobs:
-  - job: Deploy
-    steps:
-    - task: AzureWebAppContainer@1
-      displayName: Deploy to Web App Container
-      inputs:
-        azureSubscription: $(serviceConnection)   # Azure RM service connection
-        appName: $(appName)
-        containers: |
-          $(acrName)/$(imageName):$(imageTag)
+  inputs:
+    azureSubscription: 'DES-Service-Connection-New'
+    appName: 'mcp-container2'
+    containers: 'mcpacr0101-fbgneab5ehh8exhv.azurecr.io/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)'
