@@ -7,7 +7,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  DOCKER_IMAGE_NAME: my-mcp-server
+  DOCKER_IMAGE_NAME: mcp-server01
   DOCKER_IMAGE_TAG: latest
   ACR_NAME: mcpacr0101  # if using Azure Container Registry
 
@@ -26,7 +26,7 @@ steps:
   displayName: Deploy to Azure Web App
   inputs:
     azureSubscription: 'DES-Service-Connection-New'
-    appName: 'mcp-container2'
+    appName: 'mcp-server01'
     containers: 'mcpacr0101-fbgneab5ehh8exhv.azurecr.io/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)'
 
 
