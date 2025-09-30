@@ -1,0 +1,30 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  DOCKER_IMAGE_NAME: mcp-server01
+  DOCKER_IMAGE_TAG: latest
+  ACR_NAME: mcpacr0101  # if using Azure Container Registry
+
+steps:
+- task: Docker@2
+  displayName: Build and Push Docker Image
+  inputs:
+    containerRegistry: 'DES-ACR'
+    repository: $(DOCKER_IMAGE_NAME)
+    command: buildAndPush
+    Dockerfile: '**/Dockerfile'
+    tags: |
+      $(DOCKER_IMAGE_TAG)
+
+- task: AzureWebAppContainer@1
+  displayName: Deploy to Azure Web App
+  inputs:
+    azureSubscription: 'DES-Service-Connection-New'
+    appName: 'mcp-server01'
+    containers: 'mcpacr0101-fbgneab5ehh8exhv.azurecr.io/$(DOCKER_IMAGE_NAME):$(DOCKER_IMAGE_TAG)'
