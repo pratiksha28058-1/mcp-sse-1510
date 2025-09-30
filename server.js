@@ -3,14 +3,12 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
 import express from "express";
 import { registerexample } from "./tools/example.js";
-//import { getadoprojects } from "./tools/get-ado-projects_sh.js";
-import { getadoprojects_ps } from "./tools/get-ado-projects_PS.js";
-// import { getadoprojects } from "./tools/getadoProjects.js"; // <-- import your tool
-import { sayHiTool } from "./tools/sayHiTool.js";
+// import { getadoprojects_ps } from "./tools/get-ado-projects_PS.js";
 import { migraterepo } from "./tools/migrate-ado-repo.js";
 import { registerMigratePRTool } from "./tools/migratePR.js";
-import { Migrate_Custom_Pipeline } from "./tools/migrate-custom-pipeline.js";
-import { migrateADOPipelineTool} from "./tools/migrate-yaml-pipeline.js";
+import { migratepipelineyaml } from "./tools/migrate-ado-pipeline.js";
+// import { registerScanADOTool } from "./tools/adoScanner.js";
+import { registerScanAllOrgsTool } from "./tools/scan-all-org.js";
 
 // Initialize server
 const server = new McpServer({
@@ -18,25 +16,21 @@ const server = new McpServer({
   version: "1.0.0",
 });
 
+// Initialize a context object to share state between tools
+const context = {};
 
-// Example tool
-// server.tool("example_tool", { param: z.string() }, async ({ param }) => ({
-//   content: [{ type: "text", text: `Processed: ${param}` }],
-// }));
 
 const app = express();
 let transport;
 
 
 registerexample(server);
-// getadoprojects(server);
-sayHiTool(server);
-getadoprojects_ps(server);
+// getadoprojects_ps(server);
 migraterepo(server);
 registerMigratePRTool(server);
-Migrate_Custom_Pipeline(server);
-migrateADOPipelineTool (server);
-
+migratepipelineyaml(server);
+// registerScanADOTool(server);
+registerScanAllOrgsTool(server);
 
 // SSE endpoint
 // HEAD check for /sse (must come before app.get)

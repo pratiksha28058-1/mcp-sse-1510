@@ -2,25 +2,25 @@ import { z } from "zod";
 import { exec } from "child_process";
 import { promisify } from "util";
 
-export function Migrate_Custom_Pipeline(server) {
+export function migratepipelineyaml(server) {
   const execAsync = promisify(exec);
 
   server.tool(
-    "migrate-custom-pipeline-ps",
+    "migrate-pipeline-ps",
+    // {
+    //   org: z.string(),
+    //   project: z.string(),
+    //   repo: z.string(),
+    //   githubOrg: z.string(),
+    //   githubRepo: z.string(),
+    // },
     {
-      org: z.string(),
-      project: z.string(),
-      repo: z.string(),
-      githubOrg: z.string(),
-      githubRepo: z.string(),
-    },
-    {
-      description: "Migrate Custom Pipeline  to GitHub",
+      description: "Migrate ADO pipeline to GitHub",
     },
     async (args) => {
       try {
         const { stdout, stderr } = await execAsync(
-          `pwsh -ExecutionPolicy Bypass -File ./scripts/Migrate_Yaml_Pipeline_v01.ps1 $AdoOrg ${args.org} $AdoProject ${args.project} $AdoRepo ${args.repo} $GithubOwner ${args.githubOrg} $GithubRepo ${args.githubRepo}`,
+          `pwsh -ExecutionPolicy Bypass -File ./scripts/Migrate_Yaml_Pipeline_v01.ps1`,
           {
             timeout: 10 * 60 * 1000,   // 10 minutes
             maxBuffer: 20 * 1024 * 1024, // 20 MB buffer
