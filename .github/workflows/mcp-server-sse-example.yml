@@ -1,0 +1,37 @@
+name: DemoAppp/mcp-server-sse-example
+on:
+  push:
+    branches:
+    - main
+env:
+  ACR_NAME: mcpacr0101
+  DOCKER_IMAGE_NAME: my-mcp-server
+  DOCKER_IMAGE_TAG: latest
+jobs:
+  build:
+    env:
+      DES_ACR_DOCKER_REGISTRY: https://mcpacr0101-fbgneab5ehh8exhv.azurecr.io
+      DES_ACR_DOCKER_USERNAME: mcpacr0101
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4.1.0
+    - name: Build and Push Docker Image
+      uses: docker/login-action@v3.0.0
+      with:
+        registry: "${{ env.DES_ACR_DOCKER_REGISTRY }}"
+        username: "${{ env.DES_ACR_DOCKER_USERNAME }}"
+        password: "${{ secrets.DES_ACR_DOCKER_PASSWORD }}"
+    - name: Build and Push Docker Image
+      run: docker build . --file "Dockerfile" -t ${{ env.DES_ACR_DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
+    - name: Build and Push Docker Image
+      run: docker push ${{ env.DES_ACR_DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
+    - name: Deploy to Azure Web App
+      uses: azure/login@v1.6.0
+      with:
+        creds: "${{ secrets.AZURE_CREDENTIALS }}"
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v3.0.0
+      with:
+        app-name: mcp-container2
+        images: mcpacr0101-fbgneab5ehh8exhv.azurecr.io/${{ env.DOCKER_IMAGE_NAME }}:${{ env.DOCKER_IMAGE_TAG }}
