@@ -1,4 +1,4 @@
-name: DemoAppp/MCP/mcp-server-sse-example
+name: DemoAppp/mcp-server-sse-example
 on:
   push:
     branches:
