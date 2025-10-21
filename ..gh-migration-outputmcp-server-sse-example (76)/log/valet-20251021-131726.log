@@ -1,0 +1,37 @@
+# Logfile created on 2025-10-21 13:17:26 +0000 by logger.rb/v1.6.0
+I, [2025-10-21T13:17:26.600180 #1]  INFO -- : Using GitHub Features: Defaults
+I, [2025-10-21T13:17:26.601987 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/build/definitions/76?api-version=5.0
+I, [2025-10-21T13:17:26.962971 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:17:26.996621 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/git/repositories/mcp-server-sse-example/items?api-version=5.0-preview&path=azure-pipeline.yml&versionDescriptor.version=main
+I, [2025-10-21T13:17:27.357152 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:17:27.361492 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/serviceendpoint/endpoints?api-version=5.0-preview
+I, [2025-10-21T13:17:27.783155 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:17:27.789662 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/distributedtask/variablegroups?api-version=5.0-preview&queryOrder=idDescending
+I, [2025-10-21T13:17:28.127953 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:17:28.131850 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/distributedtask/taskgroups?api-version=5.0-preview
+I, [2025-10-21T13:17:28.468841 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:17:28.472875 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/_apis/distributedtask/tasks?api-version=5.0-preview
+I, [2025-10-21T13:17:29.095726 #1]  INFO -- response: Status 200
+D, [2025-10-21T13:17:29.152259 #1] DEBUG -- : [Transformers::AzureDevops::Pipeline::Steps]: Located transformer for 'Docker@2'
+W, [2025-10-21T13:17:29.155036 #1]  WARN -- : There was an error tranforming step, and an array is being surfaced: Docker@2
+D, [2025-10-21T13:17:29.155731 #1] DEBUG -- : [Transformers::AzureDevops::Pipeline::Steps]: Located transformer for 'AzureWebAppContainer@1'
+W, [2025-10-21T13:17:29.156730 #1]  WARN -- : There was an error tranforming step, and an array is being surfaced: AzureWebAppContainer@1
+D, [2025-10-21T13:17:29.158327 #1] DEBUG -- : [Transformers::AzureDevops::Pipeline::On]: Located transformer for 'continuousIntegration'
+I, [2025-10-21T13:17:29.221173 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510
+I, [2025-10-21T13:17:29.812897 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:17:29.820582 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/git/refs/heads/main
+I, [2025-10-21T13:17:30.308563 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:17:30.312226 #1]  INFO -- request: POST https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/git/refs
+I, [2025-10-21T13:17:30.916576 #1]  INFO -- response: Status 201
+I, [2025-10-21T13:17:30.917621 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/contents/.github/workflows/mcp-server-sse-example_(76).yml?sha=4b608dd8109f117fb07f37529749442ac6be5464
+I, [2025-10-21T13:17:31.377014 #1]  INFO -- response: Status 404
+I, [2025-10-21T13:17:31.378276 #1]  INFO -- request: PUT https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/contents/.github/workflows/mcp-server-sse-example_(76).yml
+I, [2025-10-21T13:17:32.221138 #1]  INFO -- response: Status 201
+I, [2025-10-21T13:17:32.222599 #1]  INFO -- request: POST https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/pulls
+I, [2025-10-21T13:17:33.637154 #1]  INFO -- response: Status 201
+I, [2025-10-21T13:17:33.642115 #1]  INFO -- : Pull request: 'https://github.com/pratiksha28058-1/mcp-sse-1510/pull/79'
+I, [2025-10-21T13:17:33.644883 #1]  INFO -- request: GET https://api.github.com/user
+I, [2025-10-21T13:17:34.101789 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:17:34.103524 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510
+I, [2025-10-21T13:17:34.700384 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:17:34.703431 #1]  INFO -- : Sending telemetry with transaction id '5fb7eee7-9a90-4d7a-ac0c-8eafb60437c0'
