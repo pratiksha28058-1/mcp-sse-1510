@@ -11,3 +11,27 @@ I, [2025-10-21T13:04:24.561744 #1]  INFO -- response: Status 200
 I, [2025-10-21T13:04:24.563680 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/distributedtask/taskgroups?api-version=5.0-preview
 I, [2025-10-21T13:04:24.906389 #1]  INFO -- response: Status 200
 I, [2025-10-21T13:04:24.909041 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/_apis/distributedtask/tasks?api-version=5.0-preview
+I, [2025-10-21T13:04:26.088447 #1]  INFO -- response: Status 200
+D, [2025-10-21T13:04:26.151765 #1] DEBUG -- : [Transformers::AzureDevops::Pipeline::Steps]: Located transformer for 'Docker@2'
+W, [2025-10-21T13:04:26.153677 #1]  WARN -- : There was an error tranforming step, and an array is being surfaced: Docker@2
+D, [2025-10-21T13:04:26.154375 #1] DEBUG -- : [Transformers::AzureDevops::Pipeline::Steps]: Located transformer for 'AzureWebAppContainer@1'
+W, [2025-10-21T13:04:26.155402 #1]  WARN -- : There was an error tranforming step, and an array is being surfaced: AzureWebAppContainer@1
+D, [2025-10-21T13:04:26.156483 #1] DEBUG -- : [Transformers::AzureDevops::Pipeline::On]: Located transformer for 'continuousIntegration'
+I, [2025-10-21T13:04:26.225304 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510
+I, [2025-10-21T13:04:26.779802 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:04:26.799820 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/git/refs/heads/main
+I, [2025-10-21T13:04:27.300954 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:04:27.303333 #1]  INFO -- request: POST https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/git/refs
+I, [2025-10-21T13:04:27.919808 #1]  INFO -- response: Status 201
+I, [2025-10-21T13:04:27.923272 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/contents/.github/workflows/buildanddeploycontainer_working_-_master.yml?sha=d1aedffeeceaa2ab9fed2327ebef4d9bde9e134d
+I, [2025-10-21T13:04:28.390769 #1]  INFO -- response: Status 404
+I, [2025-10-21T13:04:28.392682 #1]  INFO -- request: PUT https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/contents/.github/workflows/buildanddeploycontainer_working_-_master.yml
+I, [2025-10-21T13:04:29.211984 #1]  INFO -- response: Status 201
+I, [2025-10-21T13:04:29.218566 #1]  INFO -- request: POST https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/pulls
+I, [2025-10-21T13:04:32.339117 #1]  INFO -- response: Status 201
+I, [2025-10-21T13:04:32.345410 #1]  INFO -- : Pull request: 'https://github.com/pratiksha28058-1/mcp-sse-1510/pull/71'
+I, [2025-10-21T13:04:32.356117 #1]  INFO -- request: GET https://api.github.com/user
+I, [2025-10-21T13:04:33.828540 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:04:33.830719 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510
+I, [2025-10-21T13:04:34.360437 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:04:34.363569 #1]  INFO -- : Sending telemetry with transaction id 'b0d6bdd2-c120-4190-9509-579cc6764772'
