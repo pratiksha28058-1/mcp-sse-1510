@@ -1,0 +1,32 @@
+# Logfile created on 2025-10-21 13:04:01 +0000 by logger.rb/v1.6.0
+I, [2025-10-21T13:04:01.392261 #1]  INFO -- : Using GitHub Features: Defaults
+I, [2025-10-21T13:04:01.394650 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/build/definitions/77?api-version=5.0
+I, [2025-10-21T13:04:01.932320 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:04:01.934268 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/serviceendpoint/endpoints?api-version=5.0-preview
+I, [2025-10-21T13:04:02.314564 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:04:02.316948 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/distributedtask/variablegroups?api-version=5.0-preview&queryOrder=idDescending
+I, [2025-10-21T13:04:02.654543 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:04:02.656673 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/distributedtask/taskgroups?api-version=5.0-preview
+I, [2025-10-21T13:04:02.987167 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:04:02.989060 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/_apis/distributedtask/tasks?api-version=5.0-preview
+I, [2025-10-21T13:04:04.224787 #1]  INFO -- response: Status 200
+D, [2025-10-21T13:04:04.292868 #1] DEBUG -- : [Transformers::AzureDevops::Pipeline::Steps]: Located transformer for 'Docker@2'
+W, [2025-10-21T13:04:04.294130 #1]  WARN -- : There was an error tranforming step, and an array is being surfaced: e28912f1-0114-4464-802a-a3a35437fd16@2
+I, [2025-10-21T13:04:04.351263 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510
+I, [2025-10-21T13:04:04.927809 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:04:04.932476 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/git/refs/heads/main
+I, [2025-10-21T13:04:06.420046 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:04:06.421237 #1]  INFO -- request: POST https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/git/refs
+I, [2025-10-21T13:04:06.971822 #1]  INFO -- response: Status 201
+I, [2025-10-21T13:04:06.974410 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/contents/.github/workflows/buildonlycontainer_-_mcp-server3.yml?sha=d1aedffeeceaa2ab9fed2327ebef4d9bde9e134d
+I, [2025-10-21T13:04:07.422969 #1]  INFO -- response: Status 404
+I, [2025-10-21T13:04:07.424355 #1]  INFO -- request: PUT https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/contents/.github/workflows/buildonlycontainer_-_mcp-server3.yml
+I, [2025-10-21T13:04:08.166911 #1]  INFO -- response: Status 201
+I, [2025-10-21T13:04:08.170048 #1]  INFO -- request: POST https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/pulls
+I, [2025-10-21T13:04:09.840643 #1]  INFO -- response: Status 201
+I, [2025-10-21T13:04:09.858478 #1]  INFO -- : Pull request: 'https://github.com/pratiksha28058-1/mcp-sse-1510/pull/68'
+I, [2025-10-21T13:04:09.864017 #1]  INFO -- request: GET https://api.github.com/user
+I, [2025-10-21T13:04:10.305299 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:04:10.312832 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510
+I, [2025-10-21T13:04:10.835625 #1]  INFO -- response: Status 200
+I, [2025-10-21T13:04:10.845301 #1]  INFO -- : Sending telemetry with transaction id '18df9338-7799-4e14-8b8d-24ba197a3606'
