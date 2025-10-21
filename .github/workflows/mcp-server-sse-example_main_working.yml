@@ -1,0 +1,25 @@
+name: DemoAppp/MCP-Server-SSE-Example_main_working
+on:
+  workflow_dispatch:
+env:
+  system_debug: 'false'
+jobs:
+  Job_1:
+    env:
+      DES_ACR_DOCKER_REGISTRY: https://mcpacr0101-fbgneab5ehh8exhv.azurecr.io
+      DES_ACR_DOCKER_USERNAME: mcpacr0101
+    name: Agent job 1
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4.1.0
+    - name: buildAndPush
+      uses: docker/login-action@v3.0.0
+      with:
+        registry: "${{ env.DES_ACR_DOCKER_REGISTRY }}"
+        username: "${{ env.DES_ACR_DOCKER_USERNAME }}"
+        password: "${{ secrets.DES_ACR_DOCKER_PASSWORD }}"
+    - name: buildAndPush
+      run: docker build . --file "Dockerfile" -t ${{ env.DES_ACR_DOCKER_REGISTRY }}/mcp-server2:${{ github.run_id }}
+    - name: buildAndPush
+      run: docker push ${{ env.DES_ACR_DOCKER_REGISTRY }}/mcp-server2:${{ github.run_id }}
