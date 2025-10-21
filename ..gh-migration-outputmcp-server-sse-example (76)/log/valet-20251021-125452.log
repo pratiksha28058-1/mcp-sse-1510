@@ -1,0 +1,13 @@
+# Logfile created on 2025-10-21 12:54:52 +0000 by logger.rb/v1.6.0
+I, [2025-10-21T12:54:52.955440 #1]  INFO -- : Using GitHub Features: Defaults
+I, [2025-10-21T12:54:52.957043 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/build/definitions/76?api-version=5.0
+I, [2025-10-21T12:54:53.312805 #1]  INFO -- response: Status 200
+I, [2025-10-21T12:54:53.350702 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/git/repositories/mcp-server-sse-example/items?api-version=5.0-preview&path=azure-pipeline.yml&versionDescriptor.version=main
+I, [2025-10-21T12:54:53.717114 #1]  INFO -- response: Status 200
+I, [2025-10-21T12:54:53.722823 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/serviceendpoint/endpoints?api-version=5.0-preview
+I, [2025-10-21T12:54:54.136911 #1]  INFO -- response: Status 200
+I, [2025-10-21T12:54:54.138652 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/distributedtask/variablegroups?api-version=5.0-preview&queryOrder=idDescending
+I, [2025-10-21T12:54:54.467134 #1]  INFO -- response: Status 200
+I, [2025-10-21T12:54:54.471849 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/distributedtask/taskgroups?api-version=5.0-preview
+I, [2025-10-21T12:54:54.833655 #1]  INFO -- response: Status 200
+I, [2025-10-21T12:54:54.835952 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/_apis/distributedtask/tasks?api-version=5.0-preview
