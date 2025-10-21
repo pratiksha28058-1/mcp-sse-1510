@@ -1,0 +1,11 @@
+# Logfile created on 2025-10-21 15:56:59 +0000 by logger.rb/v1.6.0
+I, [2025-10-21T15:56:59.969549 #1]  INFO -- : Using GitHub Features: Defaults
+I, [2025-10-21T15:56:59.970965 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/build/definitions/77?api-version=5.0
+I, [2025-10-21T15:57:00.354194 #1]  INFO -- response: Status 200
+I, [2025-10-21T15:57:00.356181 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/serviceendpoint/endpoints?api-version=5.0-preview
+I, [2025-10-21T15:57:00.776557 #1]  INFO -- response: Status 200
+I, [2025-10-21T15:57:00.784773 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/distributedtask/variablegroups?api-version=5.0-preview&queryOrder=idDescending
+I, [2025-10-21T15:57:01.118036 #1]  INFO -- response: Status 200
+I, [2025-10-21T15:57:01.119312 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/distributedtask/taskgroups?api-version=5.0-preview
+I, [2025-10-21T15:57:01.451753 #1]  INFO -- response: Status 200
+I, [2025-10-21T15:57:01.455532 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/_apis/distributedtask/tasks?api-version=5.0-preview
