@@ -1,0 +1,37 @@
+# Logfile created on 2025-10-22 09:45:18 +0000 by logger.rb/v1.6.0
+I, [2025-10-22T09:45:18.369995 #1]  INFO -- : Using GitHub Features: Defaults
+I, [2025-10-22T09:45:18.372351 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/build/definitions/75?api-version=5.0
+I, [2025-10-22T09:45:19.221626 #1]  INFO -- response: Status 200
+I, [2025-10-22T09:45:19.244741 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/git/repositories/mcp-server-sse-example/items?api-version=5.0-preview&path=azure-pipeline.yml&versionDescriptor.version=main
+I, [2025-10-22T09:45:19.587641 #1]  INFO -- response: Status 200
+I, [2025-10-22T09:45:19.594067 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/serviceendpoint/endpoints?api-version=5.0-preview
+I, [2025-10-22T09:45:20.059401 #1]  INFO -- response: Status 200
+I, [2025-10-22T09:45:20.063796 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/distributedtask/variablegroups?api-version=5.0-preview&queryOrder=idDescending
+I, [2025-10-22T09:45:20.405577 #1]  INFO -- response: Status 200
+I, [2025-10-22T09:45:20.408190 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/DemoAppp/_apis/distributedtask/taskgroups?api-version=5.0-preview
+I, [2025-10-22T09:45:20.752379 #1]  INFO -- response: Status 200
+I, [2025-10-22T09:45:20.767439 #1]  INFO -- request: GET https://dev.azure.com/PratikshaTiwari/_apis/distributedtask/tasks?api-version=5.0-preview
+I, [2025-10-22T09:45:22.172588 #1]  INFO -- response: Status 200
+D, [2025-10-22T09:45:22.204093 #1] DEBUG -- : [Transformers::AzureDevops::Pipeline::Steps]: Located transformer for 'Docker@2'
+W, [2025-10-22T09:45:22.205574 #1]  WARN -- : There was an error tranforming step, and an array is being surfaced: Docker@2
+D, [2025-10-22T09:45:22.206105 #1] DEBUG -- : [Transformers::AzureDevops::Pipeline::Steps]: Located transformer for 'AzureWebAppContainer@1'
+W, [2025-10-22T09:45:22.206927 #1]  WARN -- : There was an error tranforming step, and an array is being surfaced: AzureWebAppContainer@1
+D, [2025-10-22T09:45:22.207971 #1] DEBUG -- : [Transformers::AzureDevops::Pipeline::On]: Located transformer for 'continuousIntegration'
+I, [2025-10-22T09:45:22.266999 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510
+I, [2025-10-22T09:45:22.721276 #1]  INFO -- response: Status 200
+I, [2025-10-22T09:45:22.729087 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/git/refs/heads/main
+I, [2025-10-22T09:45:23.142353 #1]  INFO -- response: Status 200
+I, [2025-10-22T09:45:23.149763 #1]  INFO -- request: POST https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/git/refs
+I, [2025-10-22T09:45:23.630903 #1]  INFO -- response: Status 201
+I, [2025-10-22T09:45:23.633020 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/contents/.github/workflows/mcp-server-sse-example.yml?sha=0fc1ba49dc5676e7c5cafe03e2507124bed3eafe
+I, [2025-10-22T09:45:24.006672 #1]  INFO -- response: Status 200
+I, [2025-10-22T09:45:24.008655 #1]  INFO -- request: PUT https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/contents/.github/workflows/mcp-server-sse-example.yml
+I, [2025-10-22T09:45:24.686522 #1]  INFO -- response: Status 200
+I, [2025-10-22T09:45:24.688030 #1]  INFO -- request: POST https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510/pulls
+I, [2025-10-22T09:45:26.028911 #1]  INFO -- response: Status 201
+I, [2025-10-22T09:45:26.034603 #1]  INFO -- : Pull request: 'https://github.com/pratiksha28058-1/mcp-sse-1510/pull/195'
+I, [2025-10-22T09:45:26.038010 #1]  INFO -- request: GET https://api.github.com/user
+I, [2025-10-22T09:45:26.423820 #1]  INFO -- response: Status 200
+I, [2025-10-22T09:45:26.426900 #1]  INFO -- request: GET https://api.github.com/repos/pratiksha28058-1/mcp-sse-1510
+I, [2025-10-22T09:45:26.834813 #1]  INFO -- response: Status 200
+I, [2025-10-22T09:45:26.843513 #1]  INFO -- : Sending telemetry with transaction id '7841ce4c-ea33-412a-874c-0b6034715227'
