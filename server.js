@@ -66,7 +66,7 @@ app.head("/messages", (req, res) => {
 
 
 
-// Use PORT from environment (Azure injects PORT=8080)
+// Use PORT from environment (Azure injects PORT=8080) Testing version track using upgradex
 const port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
   console.log(`✅ MCP SSE server running on http://0.0.0.0:${port}/sse`);
